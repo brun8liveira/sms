@@ -37,7 +37,6 @@
         z-index: 9999;
     }
 
-    /* Centraliza o botão automático do EmulatorJS */
     .ejs_start_button {
         position: absolute !important;
         top: 50% !important;
@@ -55,26 +54,19 @@
 </style>
 
 <script>
-    // CONFIGURAÇÕES DO EMULATORJS
     EJS_player = "#game";
     EJS_core = "sms";
     EJS_pathtodata = "data/";
-    EJS_gameUrl = "roms/ak.sms";   // seu arquivo
+    EJS_gameUrl = "roms/ak.sms";
     EJS_dontExtractRom = true;
 
     function startGame() {
-
-        // esconder botão
         document.getElementById('play-btn').style.display = "none";
-
-        // mostrar canvas
         document.getElementById('game').style.display = "block";
 
-        // fullscreen
         const doc = document.documentElement;
         if (doc.requestFullscreen) doc.requestFullscreen();
 
-        // carregar loader
         let s = document.createElement("script");
         s.src = "data/loader.js";
         document.body.appendChild(s);
