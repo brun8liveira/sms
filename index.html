@@ -22,6 +22,7 @@
         display: none;
     }
 
+    /* Botão principal */
     #play-btn {
         position: absolute;
         top: 50%;
@@ -37,38 +38,45 @@
         z-index: 9999;
     }
 
+    /* Botão automático do EmulatorJS (iOS) */
     .ejs_start_button {
         position: absolute !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
-        z-index: 9999 !important;
-
         padding: 16px 28px !important;
         font-size: 20px !important;
         background: #2196f3 !important;
         color: white !important;
         border: none !important;
         border-radius: 10px !important;
+        z-index: 9999 !important;
     }
 </style>
 
 <script>
+    // CONFIGURAÇÃO DO EMULATORJS — CORRETA PARA SUA ESTRUTURA
     EJS_player = "#game";
-    EJS_core = "sms";
-    EJS_pathtodata = "data/";
+    EJS_core = "smsplus";
+    EJS_pathtodata = "EmulatorJS-main/data/";
     EJS_gameUrl = "roms/ak.sms";
     EJS_dontExtractRom = true;
 
     function startGame() {
+
+        // Oculta botão principal
         document.getElementById('play-btn').style.display = "none";
+
+        // Mostra canvas
         document.getElementById('game').style.display = "block";
 
+        // Fullscreen
         const doc = document.documentElement;
         if (doc.requestFullscreen) doc.requestFullscreen();
 
+        // Carregar emulatorJS
         let s = document.createElement("script");
-        s.src = "data/loader.js";
+        s.src = "EmulatorJS-main/data/loader.js";
         document.body.appendChild(s);
     }
 </script>
