@@ -1,63 +1,93 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SNES NFC</title>
-
-<script>
-  EJS_DEBUG_XX = true;
-  EJS_threads = false;
-  EJS_player = "#game";
-  EJS_core = "snes";
-  EJS_gameUrl = "roms/smw.smc";
-  EJS_pathtodata = "EmulatorJS-main/data/";
-
-  // 🔴 deixa o emulador iniciar sozinho
-  EJS_startOnLoaded = true;
-  EJS_fullscreenOnLoaded = false;
-</script>
-
-<script src="EmulatorJS-main/data/loader.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>Master System – AK</title>
 
 <style>
-html, body {
-  margin: 0;
-  background: black;
-  height: 100%;
-  overflow: hidden;
-}
-#game {
-  width: 100vw;
-  height: 100vh;
-}
-#overlay {
-  position: fixed;
-  inset: 0;
-  background: black;
-  color: white;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        overflow: hidden;
+    }
+
+    #game {
+        width: 100vw;
+        height: 100vh;
+        background: black;
+        display: none;
+    }
+
+    #play-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 16px 32px;
+        font-size: 22px;
+        background: #2196f3;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        z-index: 9999;
+    }
+
+    /* Centraliza o botão automático do EmulatorJS */
+    .ejs_start_button {
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 9999 !important;
+
+        padding: 16px 28px !important;
+        font-size: 20px !important;
+        background: #2196f3 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 10px !important;
+    }
 </style>
+
+<script>
+    // CONFIGURAÇÕES DO EMULATORJS
+    EJS_player = "#game";
+    EJS_core = "sms";
+    EJS_pathtodata = "data/";
+    EJS_gameUrl = "roms/ak.sms";   // seu arquivo
+    EJS_dontExtractRom = true;
+
+    function startGame() {
+
+        // esconder botão
+        document.getElementById('play-btn').style.display = "none";
+
+        // mostrar canvas
+        document.getElementById('game').style.display = "block";
+
+        // fullscreen
+        const doc = document.documentElement;
+        if (doc.requestFullscreen) doc.requestFullscreen();
+
+        // carregar loader
+        let s = document.createElement("script");
+        s.src = "data/loader.js";
+        document.body.appendChild(s);
+    }
+</script>
+
 </head>
 
 <body>
 
-<div id="overlay">▶ TOCAR PARA JOGAR</div>
+<button id="play-btn" onclick="startGame()">Jogar</button>
+
 <div id="game"></div>
-
-<script>
-document.getElementById("overlay").addEventListener("click", () => {
-  // gesto do usuário (obrigatório no Android)
-  document.getElementById("overlay").remove();
-
-  // fullscreen só após toque
-  document.documentElement.requestFullscreen?.();
-});
-</script>
 
 </body>
 </html>
