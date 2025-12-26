@@ -1,93 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Master System – AK</title>
 
-<style>
-    html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        background: black;
-        overflow: hidden;
-    }
-
-    #game {
-        width: 100vw;
-        height: 100vh;
-        background: black;
-        display: none;
-    }
-
-    /* Botão principal */
-    #play-btn {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 16px 32px;
-        font-size: 22px;
-        background: #2196f3;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        z-index: 9999;
-    }
-
-    /* Botão automático do EmulatorJS (iOS) */
-    .ejs_start_button {
-        position: absolute !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-        padding: 16px 28px !important;
-        font-size: 20px !important;
-        background: #2196f3 !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 10px !important;
-        z-index: 9999 !important;
-    }
-</style>
-
 <script>
-    // CONFIGURAÇÃO DO EMULATORJS — CORRETA PARA SUA ESTRUTURA
-    EJS_player = "#game";
-    EJS_core = "smsplus";
-    EJS_pathtodata = "EmulatorJS-main/data/";
-    EJS_gameUrl = "roms/ak.sms";
-    EJS_dontExtractRom = true;
+  // CONFIGURAÇÃO (corrigida para a sua estrutura)
+  EJS_DEBUG_XX = true;
+  EJS_threads = false;
 
-    function startGame() {
+  EJS_player      = "#game";
+  EJS_core        = "smsplus";                 // ✔ CORE correto no seu package.json
+  EJS_gameUrl     = "roms/ak.sms";             // ✔ ROM correta
+  EJS_pathtodata  = "EmulatorJS-main/data/";   // ✔ caminho correto
 
-        // Oculta botão principal
-        document.getElementById('play-btn').style.display = "none";
-
-        // Mostra canvas
-        document.getElementById('game').style.display = "block";
-
-        // Fullscreen
-        const doc = document.documentElement;
-        if (doc.requestFullscreen) doc.requestFullscreen();
-
-        // Carregar emulatorJS
-        let s = document.createElement("script");
-        s.src = "EmulatorJS-main/data/loader.js";
-        document.body.appendChild(s);
-    }
+  // Iniciar sozinho ao carregar
+  EJS_startOnLoaded = true;
+  EJS_fullscreenOnLoaded = false; // fullscreen apenas após toque
 </script>
 
+<script src="EmulatorJS-main/data/loader.js"></script>
+
+<style>
+html, body {
+  margin: 0;
+  background: black;
+  height: 100%;
+  overflow: hidden;
+}
+
+#game {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* overlay de toque */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  cursor: pointer;
+}
+</style>
 </head>
 
 <body>
 
-<button id="play-btn" onclick="startGame()">Jogar</button>
-
+<div id="overlay">▶ TOCAR PARA JOGAR</div>
 <div id="game"></div>
+
+<script>
+  const overlay = document.getElementById("overlay");
+
+  overlay.addEventListener("click", () => {
+    overlay.remove();
+
+    // Fullscreen apenas após gesto
+    document.documentElement.requestFullscreen?.();
+  });
+</script>
 
 </body>
 </html>
